@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nuzlocke Tracker</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body class="landing">
+  <main class="landing-wrap">
+    <h1>Nuzlocke <span>Tracker</span></h1>
+    <div class="cards">
+      <section class="card">
+        <h2>Start a new run</h2>
+        <form id="create-form">
+          <label>Run name <input name="name" placeholder="Summer Randomizer" maxlength="80" /></label>
+          <div class="grid2">
+            <label>Player 1 <input name="p1" placeholder="Ash" maxlength="24" /></label>
+            <label>Player 2 <input name="p2" placeholder="Misty" maxlength="24" /></label>
+            <label>Player 3 <input name="p3" placeholder="Brock" maxlength="24" /></label>
+            <label>Player 4 <input name="p4" placeholder="Gary" maxlength="24" /></label>
+          </div>
+          <button type="submit" class="primary">Create run</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Join a run</h2>
+        <form id="join-form">
+          <label>Run code <input name="code" placeholder="e.g. AB12CD" maxlength="8" style="text-transform:uppercase" required /></label>
+          <button type="submit">Join</button>
+        </form>
+        <div id="recent"></div>
+      </section>
+    </div>
+  </main>
+  <script src="/presets.js"></script>
+  <script src="/landing.js"></script>
+</body>
+</html>
