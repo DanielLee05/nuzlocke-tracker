@@ -122,6 +122,10 @@ dialog.wide h2 { margin-bottom: 12px; }
 .pname { font-weight: 700; font-size: 16px; outline: none; padding: 2px 6px; margin-left: -6px; border-radius: 6px; }
 .player-body header { padding-left: 6px; }
 .pname:focus { background: var(--panel-2); }
+.pname[contenteditable]:hover { background: var(--panel-2); cursor: text; }
+.player.locked .avatar { cursor: default; }
+.player.locked .avatar:hover { background: transparent; }
+.player.locked .avatar.empty:hover { color: var(--border); }
 .player footer { display: flex; gap: 6px; flex-wrap: wrap; }
 .pill { font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px solid; }
 .pill.alive { color: var(--alive); border-color: color-mix(in srgb, var(--alive) 50%, transparent); }
@@ -263,6 +267,9 @@ dialog textarea { resize: vertical; }
 .cell:hover { background: var(--panel-2); }
 .cell.empty { text-align: center; color: var(--border); font-size: 18px; }
 .cell.empty:hover { color: var(--muted); }
+.cell.locked { cursor: default; }
+.cell.locked:hover { background: transparent; }
+.cell.empty.locked .plus { visibility: hidden; }
 .cell .sprite { width: 36px; height: 36px; image-rendering: pixelated; vertical-align: middle; margin: -6px 2px -6px -4px; }
 .cell .species { font-weight: 600; font-size: 13px; vertical-align: middle; }
 .cell.alive { border-left-color: var(--alive); }

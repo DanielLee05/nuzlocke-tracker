@@ -181,11 +181,17 @@ function sanitizeEncounter(e = {}) {
 // Apply one operation; returns a log message or throws.
 function applyOp(run, op, actor) {
   const who = run.players.find((p) => p.id === actor)?.name || "Someone";
+  // Per-player data (encounters, name, sprite) may only be changed by that player.
+  const ownOnly = (player) => {
+    if (!actor) throw new Error("Pick who you are (top right) before editing");
+    if (player.id !== actor) throw new Error(`Only ${player.name} can edit that`);
+  };
   switch (op.type) {
     case "setEncounter": {
       const route = run.routes.find((r) => r.id === op.routeId);
       const player = run.players.find((p) => p.id === op.playerId);
       if (!route || !player) throw new Error("Unknown route/player");
+      ownOnly(player);
       const prev = run.encounters[route.id]?.[player.id];
       const next = sanitizeEncounter(op.encounter);
       if (!next.species && next.status === "none") {
@@ -274,6 +280,7 @@ function applyOp(run, op, actor) {
     case "setPlayer": {
       const player = run.players.find((p) => p.id === op.playerId);
       if (!player) throw new Error("Unknown player");
+      ownOnly(player);
       if (op.name !== undefined) player.name = str(op.name, 24) || player.name;
       if (op.sprite !== undefined) {
         const s = str(op.sprite, 40);

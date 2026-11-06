@@ -163,6 +163,13 @@ function renderOnline() {
     .join("");
 }
 
+// Each player may only edit their own column, name and sprite.
+const canEdit = (pid) => !!actor && actor === pid;
+function editDenied(pid) {
+  if (!actor) return toast("Choose who you are (top right) first", true);
+  toast(`Only ${player(pid)?.name || "that player"} can edit that`, true);
+}
+
 function renderPlayers() {
   $("#players").innerHTML = run.players
     .map((p) => {
@@ -170,13 +177,14 @@ function renderPlayers() {
       const alive = encs.filter((x) => x.e.status === "alive" || x.e.status === "boxed");
       const dead = encs.filter((x) => x.e.status === "dead");
       const resets = (run.history || []).filter((a) => a.resetBy === p.id).length;
-      return `<article class="player ${actor === p.id ? "me" : ""}" style="--c:${p.color}">
-        <button class="avatar ${p.sprite ? "" : "empty"}" data-pick-sprite="${p.id}" title="Choose trainer sprite">
+      const mine = canEdit(p.id);
+      return `<article class="player ${actor === p.id ? "me" : ""} ${mine ? "" : "locked"}" style="--c:${p.color}">
+        <button class="avatar ${p.sprite ? "" : "empty"}" data-pick-sprite="${p.id}" title="${mine ? "Choose trainer sprite" : `Only ${esc(p.name)} can change this`}">
           ${p.sprite ? `<img src="${TRAINER(p.sprite)}" alt="" />` : "?"}
         </button>
         <div class="player-body">
           <header>
-            <span class="pname" contenteditable="true" spellcheck="false" data-pid="${p.id}">${esc(p.name)}</span>
+            <span class="pname" ${mine ? 'contenteditable="true"' : ""} spellcheck="false" data-pid="${p.id}" title="${mine ? "Click to rename" : ""}">${esc(p.name)}</span>
           </header>
         <footer>
           <span class="pill alive">${alive.length} alive</span>
@@ -191,16 +199,17 @@ function renderPlayers() {
 
 function cellHtml(route, p) {
   const e = run.encounters[route.id]?.[p.id];
+  const lock = canEdit(p.id) ? "" : " locked";
   if (!e || (!e.species && e.status === "none")) {
-    return `<td class="cell empty" data-route="${route.id}" data-pid="${p.id}"><span class="plus">+</span></td>`;
+    return `<td class="cell empty${lock}" data-route="${route.id}" data-pid="${p.id}"><span class="plus">+</span></td>`;
   }
   if (e.status === "missed" && !e.species) {
-    return `<td class="cell missed" data-route="${route.id}" data-pid="${p.id}"><span class="missed-label">Missed</span></td>`;
+    return `<td class="cell missed${lock}" data-route="${route.id}" data-pid="${p.id}"><span class="missed-label">Missed</span></td>`;
   }
   const d = e.dexId || dexByLabel(e.species)?.id;
   const status = e.status === "boxed" ? "alive" : e.status;
   const title = (e.nickname ? `${e.nickname} (${e.species})` : e.species) + (status === "dead" ? " – dead" : "");
-  return `<td class="cell ${status}" data-route="${route.id}" data-pid="${p.id}" title="${esc(title)}">
+  return `<td class="cell ${status}${lock}" data-route="${route.id}" data-pid="${p.id}" title="${esc(title)}">
     ${d ? `<img class="sprite" src="${SPRITE(d)}" alt="" loading="lazy" onerror="this.remove()" />` : ""}
     <span class="species">${esc(e.nickname || e.species)}</span>
   </td>`;
@@ -706,7 +715,9 @@ $("#grid-wrap").addEventListener("click", (e) => {
     return;
   }
   const cell = e.target.closest("td.cell");
-  if (cell) openEncounter(cell.dataset.route, cell.dataset.pid);
+  if (!cell) return;
+  if (!canEdit(cell.dataset.pid)) return editDenied(cell.dataset.pid);
+  openEncounter(cell.dataset.route, cell.dataset.pid);
 });
 $("#grid-wrap").addEventListener("dblclick", (e) => {
   const th = e.target.closest("th.route");
@@ -768,6 +779,7 @@ let pickingFor = null;
 $("#players").addEventListener("click", (e) => {
   const b = e.target.closest("[data-pick-sprite]");
   if (!b) return;
+  if (!canEdit(b.dataset.pickSprite)) return editDenied(b.dataset.pickSprite);
   pickingFor = b.dataset.pickSprite;
   const p = player(pickingFor);
   $("#sprite-title").innerHTML = `Trainer sprite <small style="color:${p.color}">${esc(p.name)}</small>`;
@@ -850,7 +862,7 @@ $("#actor-select").addEventListener("change", (e) => {
   actor = e.target.value;
   localStorage.setItem(`nuz:actor:${runId}`, actor);
   if (ws?.readyState === WebSocket.OPEN) ws.send(JSON.stringify({ type: "identify", actor }));
-  renderPlayers();
+  if (run) render();
 });
 
 $("#copy-link").addEventListener("click", async () => {
