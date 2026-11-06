@@ -1,49 +1,115 @@
 import express from "express";
 import { WebSocketServer } from "ws";
 import { createServer } from "http";
-import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from "fs";
+import { readFileSync, writeFileSync, mkdirSync, readdirSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { randomBytes } from "crypto";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = process.env.DATA_DIR || join(__dirname, "data");
+const DATABASE_URL = process.env.DATABASE_URL || "";
 const PORT = process.env.PORT || 3000;
 const PLAYER_COUNT = 4;
 const COLORS = ["#ef4444", "#3b82f6", "#22c55e", "#f59e0b"];
 const STATUSES = new Set(["alive", "dead", "boxed", "missed", "none"]);
 
-mkdirSync(DATA_DIR, { recursive: true });
-
 // ---------- persistence ----------
+// Two backends: Postgres (DATABASE_URL set, e.g. Neon on Render) or local JSON files.
+// Each run is stored as one JSON blob keyed by its code.
 const runs = new Map(); // id -> state
-for (const f of readdirSync(DATA_DIR)) {
-  if (f.endsWith(".json")) {
-    try {
-      const s = JSON.parse(readFileSync(join(DATA_DIR, f), "utf8"));
-      s.history ??= [];
-      s.badges ??= 0;
-      runs.set(s.id, s);
-    } catch (e) {
-      console.error("Failed to load", f, e.message);
-    }
-  }
+
+function hydrate(s) {
+  s.history ??= [];
+  s.badges ??= 0;
+  runs.set(s.id, s);
 }
+
+async function makeStore() {
+  if (DATABASE_URL) {
+    const { default: pg } = await import("pg");
+    const pool = new pg.Pool({
+      connectionString: DATABASE_URL,
+      ssl: /localhost|127\.0\.0\.1/.test(DATABASE_URL) ? false : { rejectUnauthorized: false },
+      max: 3,
+    });
+    await pool.query(`CREATE TABLE IF NOT EXISTS runs (
+      id TEXT PRIMARY KEY,
+      data JSONB NOT NULL,
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    )`);
+    return {
+      name: "postgres",
+      async loadAll() {
+        const { rows } = await pool.query("SELECT data FROM runs");
+        return rows.map((r) => r.data);
+      },
+      async save(run) {
+        await pool.query(
+          `INSERT INTO runs (id, data, updated_at) VALUES ($1, $2, now())
+           ON CONFLICT (id) DO UPDATE SET data = EXCLUDED.data, updated_at = now()`,
+          [run.id, JSON.stringify(run)]
+        );
+      },
+      async close() {
+        await pool.end();
+      },
+    };
+  }
+  mkdirSync(DATA_DIR, { recursive: true });
+  return {
+    name: `files (${DATA_DIR})`,
+    async loadAll() {
+      const out = [];
+      for (const f of readdirSync(DATA_DIR)) {
+        if (!f.endsWith(".json")) continue;
+        try {
+          out.push(JSON.parse(readFileSync(join(DATA_DIR, f), "utf8")));
+        } catch (e) {
+          console.error("Failed to load", f, e.message);
+        }
+      }
+      return out;
+    },
+    async save(run) {
+      writeFileSync(join(DATA_DIR, `${run.id}.json`), JSON.stringify(run));
+    },
+    async close() {},
+  };
+}
+
+const store = await makeStore();
+for (const s of await store.loadAll()) hydrate(s);
+console.log(`Storage: ${store.name} (${runs.size} run${runs.size === 1 ? "" : "s"} loaded)`);
 
 const saveTimers = new Map();
+const dirty = new Set();
 function persist(run) {
+  dirty.add(run.id);
   clearTimeout(saveTimers.get(run.id));
-  saveTimers.set(
-    run.id,
-    setTimeout(() => {
-      try {
-        writeFileSync(join(DATA_DIR, `${run.id}.json`), JSON.stringify(run));
-      } catch (e) {
-        console.error("Persist failed", e.message);
-      }
-    }, 250)
-  );
+  saveTimers.set(run.id, setTimeout(() => flush(run.id), 250));
 }
+async function flush(id) {
+  saveTimers.delete(id);
+  const run = runs.get(id);
+  if (!run) return;
+  try {
+    await store.save(run);
+    dirty.delete(id);
+  } catch (e) {
+    console.error("Persist failed", id, e.message);
+  }
+}
+// Render sends SIGTERM before spin-down/redeploy: write anything still pending first.
+async function shutdown(signal) {
+  console.log(`${signal} received, flushing ${dirty.size} pending save(s)…`);
+  for (const t of saveTimers.values()) clearTimeout(t);
+  await Promise.all([...dirty].map(flush));
+  await store.close();
+  process.exit(0);
+}
+process.on("SIGTERM", () => shutdown("SIGTERM"));
+process.on("SIGINT", () => shutdown("SIGINT"));
 
 // ---------- helpers ----------
 const uid = (n = 6) =>
@@ -281,6 +347,8 @@ function applyOp(run, op, actor) {
 const app = express();
 app.use(express.json({ limit: "200kb" }));
 app.use(express.static(join(__dirname, "public"), { extensions: ["html"] }));
+
+app.get("/healthz", (_req, res) => res.json({ ok: true, storage: store.name, runs: runs.size }));
 
 app.post("/api/runs", (req, res) => {
   const run = createRun(req.body || {});
