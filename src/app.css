@@ -24,7 +24,8 @@
   a { @apply text-accent; }
   button, input, select, textarea { font: inherit; color: inherit; }
   code { @apply bg-panel-2 px-1.5 py-px rounded text-[.9em] tracking-wider; }
-  dialog { @apply bg-panel text-text border border-border rounded-2xl p-5 w-[420px] max-w-[calc(100vw-32px)]; }
+  /* Native <dialog> centers with margin: auto; Tailwind preflight zeros margin. */
+  dialog { @apply m-auto bg-panel text-text border border-border rounded-2xl p-5 w-[420px] max-w-[calc(100vw-32px)]; }
   dialog::backdrop { @apply bg-black/60 backdrop-blur-[2px]; }
   /* The encounters tab manages its own scrolling inside the grid card. */
   body:has(#tab-encounters:not([hidden])) { @apply overflow-hidden h-screen; }
