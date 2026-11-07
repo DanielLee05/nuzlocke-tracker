@@ -5,50 +5,58 @@
     <div class="grid grid-cols-2 items-start gap-3 max-md:grid-cols-1">
 
       <article class="tip-card">
-        <button type="button" class="expand-button tip-toggle" aria-expanded="false" aria-controls="tip-status">
+        <button type="button" class="expand-button tip-toggle hover:bg-transparent" aria-expanded="false" aria-controls="tip-status">
           <span>Statuses</span>
           <span class="expand-icon text-xl leading-none text-muted" aria-hidden="true">+</span>
         </button>
-        <div id="tip-status" class="tip-body" hidden>
+        <div id="tip-status" class="tip-panel" inert>
+          <div class="tip-body">
             <p>Poison: Slowly deals 1/8th health damage each turn. However, if you're BADLY poisoned via toxic, you take 1/16 of health but it increases by 1/16 every turn.</p>
             <p>Sleep: Guaranteed sleeps for one turn, then sleeps for 1-3 turns for a MINIMUM of 1 turn and a MAXIUMUM for 4 turns. 1/3 chance of waking up first turn, 1/2 chance on the second, guaranteed on the third.</p>
             <p>Paralysis: Passively lowered speed by 50% with a 25% chance of being fully paralyzed and skipping your turn.</p>
             <p>Burn: Passively weakens your physical damage by 50% and deals 1/16th health damage each turn.</p>
             <p>Freeze: Unable to move, has a 20% chance to thaw out at the end of each turn or thaws immediately if hit by a fire-type move. Certain fire moves used by the user can thaw as well. Google it</p>
+          </div>
         </div>
       </article>
 
       <article class="tip-card">
-        <button type="button" class="expand-button tip-toggle" aria-expanded="false" aria-controls="tip-combat">
+        <button type="button" class="expand-button tip-toggle hover:bg-transparent" aria-expanded="false" aria-controls="tip-combat">
             <span>Combat Tips</span>
             <span class="expand-icon text-xl leading-none text-muted" aria-hidden="true">+</span>
         </button>
-        <div id="tip-combat" class="tip-body" hidden>
+        <div id="tip-combat" class="tip-panel" inert>
+          <div class="tip-body">
             <p>S.T.A.B: Same Type Attack Bonus. If you use a move with the same type, it deals 50% more damage.</p>
             <p>Crits: Crits ignore any defense boosts and deals double damage.</p>
             <p>Special/Physical Split: Certain moves are SPECIAL and others are PHYSICAL. Special defense and normal defense only apply to their respective damage types. Also relevant for burn since it only cuts PHYSICAL damage.</p>
             <p>Spread Moves: Some moves hit two or more pokemon at once. Those are great in double battles! Make sure to use them when you see an opportunity.</p>
             <p>Lastly, there's a ton of BS like explosion, reversal, pursuit, and many more that you just can't play around. BS will happen we just gotta suck it up and cut our losses when it happens.</p>
+          </div>
         </div>
       </article>
 
       <article class="tip-card">
-        <button type="button" class="expand-button tip-toggle" aria-expanded="false" aria-controls="tip-ai">
+        <button type="button" class="expand-button tip-toggle hover:bg-transparent" aria-expanded="false" aria-controls="tip-ai">
           <span>Enemy AI Behavior</span>
           <span class="expand-icon text-xl leading-none text-muted" aria-hidden="true">+</span>
         </button>
-        <div id="tip-ai" class="tip-body mt-2" hidden>
-          <p>AS FAR AS I KNOW. The AI uses the strongest move on the given pokemon. They also switch when they cannot damage you. So, if they switch you have a 100% chance to beat that specific pokemon.</p>
+        <div id="tip-ai" class="tip-panel" inert>
+          <div class="tip-body">
+            <p>AS FAR AS I KNOW. The AI uses the strongest move on the given pokemon. They also switch when they cannot damage you. So, if they switch you have a 100% chance to beat that specific pokemon.</p>
+          </div>
         </div>
       </article>
 
       <article class="tip-card">
-        <button type="button" class="expand-button tip-toggle" aria-expanded="false" aria-controls="tip-google">
+        <button type="button" class="expand-button tip-toggle hover:bg-transparent" aria-expanded="false" aria-controls="tip-google">
           <span>How to Win</span>
           <span class="expand-icon text-xl leading-none text-muted" aria-hidden="true">+</span>
         </button>
-        <div id="tip-google" class="tip-body" hidden>
-          <p>Bro just google everything please I am dumb and don't know anything googling will solve every problem</p>
+        <div id="tip-google" class="tip-panel" inert>
+          <div class="tip-body">
+            <p>Bro just google everything please I am dumb and don't know anything googling will solve every problem</p>
+          </div>
         </div>
       </article>
     </div>
@@ -58,49 +66,57 @@
     <h2 class="m-0 mb-1 text-2xl mb-4 font-bold">Advanced tips (For sweaty losers)</h2>
     <div class="grid grid-cols-2 items-start gap-3 max-md:grid-cols-1">
       <article class="tip-card">
-        <button type="button" class="expand-button tip-toggle" aria-expanded="false" aria-controls="tip-speed">
+        <button type="button" class="expand-button tip-toggle hover:bg-transparent" aria-expanded="false" aria-controls="tip-speed">
           <span>Tempo and Speed</span>
           <span class="expand-icon text-xl leading-none text-muted" aria-hidden="true">+</span>
         </button>
-        <div id="tip-speed" class="tip-body" hidden>
-          <p>In a randomizer, speed is KEY. Your lead should be a strong-fast pokemon. Checking your pokemon's speed stat and the opponent's speed stat allows you to tell who goes first. If level is higher and base speed is higher and there is no other speed effect (tailwind, ddance, speed boost), you will always outspeed.</p>
-          <p>A pokemon switching in is negative tempo because you take a free attack. Sacrificing a pokemon is positive tempo because you can choose a strong matchup. Make sure your pokemon after a sac is faster to take advantage of the switch.</p>
+        <div id="tip-speed" class="tip-panel" inert>
+          <div class="tip-body">
+            <p>In a randomizer, speed is KEY. Your lead should be a strong-fast pokemon. Checking your pokemon's speed stat and the opponent's speed stat allows you to tell who goes first. If level is higher and base speed is higher and there is no other speed effect (tailwind, ddance, speed boost), you will always outspeed.</p>
+            <p>A pokemon switching in is negative tempo because you take a free attack. Sacrificing a pokemon is positive tempo because you can choose a strong matchup. Make sure your pokemon after a sac is faster to take advantage of the switch.</p>
+          </div>
         </div>
       </article>
 
       <article class="tip-card">
-        <button type="button" class="expand-button tip-toggle" aria-expanded="false" aria-controls="tip-team">
+        <button type="button" class="expand-button tip-toggle hover:bg-transparent" aria-expanded="false" aria-controls="tip-team">
           <span>Teambuilding</span>
           <span class="expand-icon text-xl leading-none text-muted" aria-hidden="true">+</span>
         </button>
-        <div id="tip-team" class="tip-body" hidden>
+        <div id="tip-team" class="tip-panel" inert>
+          <div class="tip-body">
             <p>Prioritize having fast pokemon with immunitites. Classicly, flying is immune to ground, so if your lead is super weak to ground, having a pokemon which is immune to ground type attack is a great switch if you run into a bad matchup.</p>
             <p>Additionally, moves like protect are great because you can scout for their strongest move. Randomizer means opponents have random moves. So just pressing protect to see what's coming isn't a bad idea.</p>
+          </div>
         </div>
       </article>
 
       <article class="tip-card">
-        <button type="button" class="expand-button tip-toggle" aria-expanded="false" aria-controls="tip-pokemon">
+        <button type="button" class="expand-button tip-toggle hover:bg-transparent" aria-expanded="false" aria-controls="tip-pokemon">
           <span>What Does Your Pokemon Do??</span>
           <span class="expand-icon text-xl leading-none text-muted" aria-hidden="true">+</span>
         </button>
-        <div id="tip-pokemon" class="tip-body" hidden>
+        <div id="tip-pokemon" class="tip-panel" inert>
+          <div class="tip-body">
             <p>First, check the pokemon's ability. 9/10 it's useless but if the ability is uniquely good (speed boost, adaptability, etc.) or uniquely bad (truant, slow start, etc.) think about it differently. You might drop one because the ability stucks.</p>
             <p>Then, check the nature. It boosts and drops 2 stat by 10%, making it uniquely better or worse at that role. You want tanks to have more defense/health, and DPS to have more damage/speed.</p>
             <p>Lastly, check if your pokemon is a special/physical attacker. Just check which stat is higher, att or spat. Focus on moves with the squigly if it's a special attacker, or an explosion if it's a physical. Don't forget about STAB!</p>
             <p>If your pokemon has low defense and health, try to avoid switching it into bad attacks. Find angles where it switches into weak/immune attacks and can hit back without worrying about taking damage on the entry.</p>
+          </div>
         </div>
       </article>
 
       <article class="tip-card">
-        <button type="button" class="expand-button tip-toggle" aria-expanded="false" aria-controls="tip-setup">
+        <button type="button" class="expand-button tip-toggle hover:bg-transparent" aria-expanded="false" aria-controls="tip-setup">
           <span>Setup Moves</span>
           <span class="expand-icon text-xl leading-none text-muted" aria-hidden="true">+</span>
         </button>
-        <div id="tip-setup" class="tip-body" hidden>
-          <p>Some moves like Dragon Dance, Quiver Dance, and Bulk Up multiply some of the pokemon's stats (1.5 -> 2 -> 2.5 -> etc.). These are SUPER scary and the enemy becomes an instant threat if you're not in position. Stack up damage fast and play aggressively to limit further boosts.</p>
-          <p>Also, some moves like ancient power and ominus winds has a chance to boost every stat which is insanely scary. Other moves like flame wheel only boosts one stat so make sure the boosts are under control.</p>
-          <P>Additionally, there is a move called rollout which doubles in damage for 5 turns. The pokemon is forced to use it each turn. It goes from 30, 60, 120, 240, 480. For context, a really strong move is 100 power. 480 is a complete nuke you must deal with it FAST.</P>
+        <div id="tip-setup" class="tip-panel" inert>
+          <div class="tip-body">
+            <p>Some moves like Dragon Dance, Quiver Dance, and Bulk Up multiply some of the pokemon's stats (1.5 -> 2 -> 2.5 -> etc.). These are SUPER scary and the enemy becomes an instant threat if you're not in position. Stack up damage fast and play aggressively to limit further boosts.</p>
+            <p>Also, some moves like ancient power and ominus winds has a chance to boost every stat which is insanely scary. Other moves like flame wheel only boosts one stat so make sure the boosts are under control.</p>
+            <P>Additionally, there is a move called rollout which doubles in damage for 5 turns. The pokemon is forced to use it each turn. It goes from 30, 60, 120, 240, 480. For context, a really strong move is 100 power. 480 is a complete nuke you must deal with it FAST.</P>
+          </div>
         </div>
       </article>
     </div>

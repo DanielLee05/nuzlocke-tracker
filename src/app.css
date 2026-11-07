@@ -93,10 +93,26 @@
   .presence-dot { @apply w-3 h-3 rounded-full border-2 border-(--c) bg-(--c) opacity-20; }
   .presence-dot[data-online] { @apply opacity-100 shadow-[0_0_8px_var(--c)]; }
 
-  /* Tips accordion */
-  .tip-card { @apply rounded-xl bg-panel-2 overflow-hidden; }
+  /* Tips accordion: 0fr → 1fr on a one-row grid so height can animate to content */
+  .tip-card { @apply overflow-hidden rounded-xl bg-panel-2; }
   .tip-toggle { @apply flex w-full items-center justify-between gap-4 border-0 bg-transparent px-4 py-3.5 text-left font-medium cursor-pointer hover:bg-panel-3; }
-  .tip-body { @apply px-4 pb-4 text-sm leading-relaxed text-muted; }
+  .expand-icon {
+    @apply inline-block origin-center;
+    transition: rotate 0.28s ease;
+  }
+  .expand-button[aria-expanded="true"] .expand-icon { rotate: 45deg; }
+  .tip-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.28s ease;
+  }
+  .tip-card:has([aria-expanded="true"]) .tip-panel { grid-template-rows: 1fr; }
+  .tip-body {
+    @apply min-h-0 overflow-hidden px-4 text-sm leading-relaxed text-muted;
+    opacity: 0;
+    transition: opacity 0.22s ease;
+  }
+  .tip-card:has([aria-expanded="true"]) .tip-body { @apply pb-4; opacity: 1; }
   .tip-body p { @apply m-0 mb-2 last:mb-0; }
   .tip-body ul { @apply m-0 pl-4 flex flex-col gap-1.5; }
 }
