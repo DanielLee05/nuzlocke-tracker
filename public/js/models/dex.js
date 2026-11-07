@@ -3,7 +3,7 @@
 import { readJson, writeJson } from "../lib/storage.js";
 
 const SPECIES_CACHE_KEY = "nuz:dex:v1";
-const TYPES_CACHE_KEY = "nuz:types:v1";
+const POKEMON_CACHE_KEY = "nuz:pokemon:v1";
 const MAX_SUGGESTIONS = 8;
 
 /** [{ id, name, label }] — populated by loadDex(). */
@@ -55,14 +55,22 @@ export function searchDex(query) {
   return [...starts, ...contains];
 }
 
-/** A Pokémon's types (e.g. ["Water", "Flying"]) from PokeAPI, cached per dex id. */
-export async function fetchTypes(dexId) {
-  const cache = readJson(TYPES_CACHE_KEY, {});
+/** Types + base Speed from PokeAPI, cached per dex id. One request serves both lookups. */
+export async function fetchPokemon(dexId) {
+  const cache = readJson(POKEMON_CACHE_KEY, {});
   if (cache[dexId]) return cache[dexId];
   const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${dexId}`);
-  if (!res.ok) throw new Error(`No type data for #${dexId}`);
-  const { types } = await res.json();
-  cache[dexId] = types.sort((a, b) => a.slot - b.slot).map((t) => titleCase(t.type.name));
-  writeJson(TYPES_CACHE_KEY, cache);
+  if (!res.ok) throw new Error(`No Pokémon data for #${dexId}`);
+  const data = await res.json();
+  cache[dexId] = {
+    types: data.types.sort((a, b) => a.slot - b.slot).map((t) => titleCase(t.type.name)),
+    speed: data.stats.find((s) => s.stat.name === "speed")?.base_stat ?? null,
+  };
+  writeJson(POKEMON_CACHE_KEY, cache);
   return cache[dexId];
 }
+
+export const fetchTypes = async (dexId) => (await fetchPokemon(dexId)).types;
+
+/** Base Speed stat (the number on the summary screen), or null if PokeAPI omitted it. */
+export const fetchSpeed = async (dexId) => (await fetchPokemon(dexId)).speed;

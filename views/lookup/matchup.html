@@ -4,6 +4,7 @@
   <div>
     <h3 class="m-0 mb-2 text-2xl font-bold"><span data-slot="title"></span> <small class="text-muted text-sm font-medium" data-slot="subtitle"></small></h3>
     <div class="flex flex-wrap gap-1.5" data-slot="types"></div>
+    <p class="hint mt-2 hidden group-data-[speed]:block">Base Speed <strong class="text-text font-semibold" data-slot="speed"></strong></p>
     <p class="hint hidden group-data-[state=loading]:block">Loading types…</p>
     <p class="hint text-dead hidden group-data-[state=error]:block">Couldn't load type data (offline?).</p>
   </div>
