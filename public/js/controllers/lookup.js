@@ -2,7 +2,7 @@
 // Both fill the shared matchup card in views/lookup/matchup.html.
 
 import { $, $$, clone, fill, mount, slot } from "../lib/dom.js";
-import { fetchTypes } from "../models/dex.js";
+import { fetchPokemon } from "../models/dex.js";
 import { pokemonSprite } from "../models/sprites.js";
 import { defensiveMatchups, offensiveCoverage } from "../models/typechart.js";
 import { attachSpeciesAutocomplete } from "./autocomplete.js";
@@ -46,32 +46,42 @@ async function showPokemon(entry) {
   const version = ++lookupVersion;
   const card = $("#lk-result");
   card.dataset.state = "loading";
+  card.removeAttribute("data-speed");
   slot(card, "sprite").src = pokemonSprite(entry.id);
-  fill(card, { title: entry.label, subtitle: `#${entry.id}` });
+  fill(card, { title: entry.label, subtitle: `#${entry.id}`, speed: "" });
   mount(slot(card, "types"));
 
-  let types;
+  let pokemon;
   try {
-    types = await fetchTypes(entry.id);
+    pokemon = await fetchPokemon(entry.id);
   } catch {
     if (version === lookupVersion) card.dataset.state = "error";
     return;
   }
   if (version !== lookupVersion) return;
   card.dataset.state = "ready";
-  fillMatchup(card, { types, title: entry.label, subtitle: `#${entry.id}`, dexId: entry.id, offenseTitle: "Attacking (STAB)", showResisted: false });
+  fillMatchup(card, {
+    types: pokemon.types,
+    speed: pokemon.speed,
+    title: entry.label,
+    subtitle: `#${entry.id}`,
+    dexId: entry.id,
+    offenseTitle: "Attacking (STAB)",
+    showResisted: false,
+  });
 }
 
 // ---------- shared matchup card ----------
 
-function fillMatchup(card, { types, title, subtitle = "", dexId, offenseTitle, showResisted }) {
+function fillMatchup(card, { types, speed = null, title, subtitle = "", dexId, offenseTitle, showResisted }) {
   const defense = defensiveMatchups(types);
   const offense = offensiveCoverage(types);
 
   const img = slot(card, "sprite");
   img.hidden = !dexId;
   if (dexId) img.src = pokemonSprite(dexId);
-  fill(card, { title, subtitle, "offense-title": offenseTitle });
+  fill(card, { title, subtitle, "offense-title": offenseTitle, speed: speed ?? "" });
+  card.toggleAttribute("data-speed", speed != null);
   mount(slot(card, "types"), types.map(typeTag));
 
   for (const group of $$("[data-group]", card)) {
