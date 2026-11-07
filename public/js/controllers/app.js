@@ -16,6 +16,7 @@ import { focusPokemonSearch, initLookups } from "./lookup.js";
 import { initPlayers, updatePlayers } from "./players.js";
 import { updateStats } from "./stats.js";
 import { initTabs, isTabVisible } from "./tabs.js";
+import { initTips } from "./tips.js";
 
 const RECENT_KEY = "nuz:recent";
 const MAX_RECENT = 8;
@@ -50,6 +51,7 @@ async function boot() {
   initEncounterDialog();
   initAttempts();
   initLookups();
+  initTips();
 
   await loadDex(); // species names must be ready before the grid renders sprites
 
