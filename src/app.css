@@ -91,6 +91,13 @@
   /* Presence dot in the header; colour from --c, lit when data-online is set */
   .presence-dot { @apply w-3 h-3 rounded-full border-2 border-(--c) bg-(--c) opacity-20; }
   .presence-dot[data-online] { @apply opacity-100 shadow-[0_0_8px_var(--c)]; }
+
+  /* Tips accordion */
+  .tip-card { @apply rounded-xl bg-panel-2 overflow-hidden; }
+  .tip-toggle { @apply flex w-full items-center justify-between gap-4 border-0 bg-transparent px-4 py-3.5 text-left font-medium cursor-pointer hover:bg-panel-3; }
+  .tip-body { @apply px-4 pb-4 text-sm leading-relaxed text-muted; }
+  .tip-body p { @apply m-0 mb-2 last:mb-0; }
+  .tip-body ul { @apply m-0 pl-4 flex flex-col gap-1.5; }
 }
 
 /* ---------- encounter grid (table semantics need a little real CSS) ---------- */
