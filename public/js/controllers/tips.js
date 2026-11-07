@@ -1,5 +1,5 @@
 // Tips tab (views/tips.html): expand / collapse. Each .expand-button toggles the
-// element named in its aria-controls attribute.
+// element named in its aria-controls attribute. The + / − lives in .expand-icon.
 
 import { $$ } from "../lib/dom.js";
 
@@ -11,8 +11,9 @@ export function initTips() {
     button.addEventListener("click", () => {
       const expanded = button.ariaExpanded !== "true";
       button.ariaExpanded = String(expanded);
-      button.textContent = expanded ? "Collapse" : "Expand";
       content.hidden = !expanded;
+      const icon = button.querySelector(".expand-icon");
+      if (icon) icon.textContent = expanded ? "−" : "+";
     });
   }
 }
