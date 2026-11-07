@@ -1,0 +1,14 @@
+<!-- Reset-run dialog (controllers/attempts.js). Must live outside hidden tab panels so showModal() is visible. -->
+<dialog id="reset-dialog">
+  <form method="dialog" id="reset-form" class="flex flex-col gap-3">
+    <h2 class="m-0 text-lg font-semibold flex justify-between items-baseline">Back to the truck <small id="reset-attempt" class="text-[13px] font-semibold"></small></h2>
+    <label class="field">Why did the run end?
+      <textarea id="reset-reason" class="input resize-y mt-4" rows="3" maxlength="500" placeholder="Chloe got crit LMFAOOOOO"></textarea>
+    </label>
+    <div class="flex items-center gap-2 mt-1">
+      <span class="flex-1"></span>
+      <button type="button" id="reset-cancel" class="btn">Cancel</button>
+      <button type="submit" class="btn btn-danger-solid">Reset run</button>
+    </div>
+  </form>
+</dialog>
