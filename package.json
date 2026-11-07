@@ -9,7 +9,7 @@
     "build:html": "node scripts/build-html.js",
     "build:css": "tailwindcss -i src/app.css -o public/app.css --minify",
     "start": "node server.js",
-    "dev": "node --watch-path=views scripts/build-html.js & tailwindcss -i src/app.css -o public/app.css --watch & node --watch server.js"
+    "dev": "node scripts/dev.js"
   },
   "engines": {
     "node": ">=20"
