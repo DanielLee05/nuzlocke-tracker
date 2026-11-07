@@ -1,17 +1,11 @@
-// Type effectiveness data. Rows = attacking type, columns = defending type.
-window.TYPES = [
+// Gen 6+ type effectiveness. `MATCHUPS[attacker][defender]` lists only non-neutral multipliers.
+
+export const TYPES = [
   "Normal", "Fire", "Water", "Electric", "Grass", "Ice", "Fighting", "Poison", "Ground",
   "Flying", "Psychic", "Bug", "Rock", "Ghost", "Dragon", "Dark", "Steel", "Fairy",
 ];
 
-window.TYPE_COLORS = {
-  Normal: "#a8a77a", Fire: "#ee8130", Water: "#6390f0", Electric: "#f7d02c", Grass: "#7ac74c", Ice: "#96d9d6",
-  Fighting: "#c22e28", Poison: "#a33ea1", Ground: "#e2bf65", Flying: "#a98ff3", Psychic: "#f95587", Bug: "#a6b91a",
-  Rock: "#b6a136", Ghost: "#735797", Dragon: "#6f35fc", Dark: "#705746", Steel: "#b7b7ce", Fairy: "#d685ad",
-};
-
-// Gen 6+ chart. Only non-neutral matchups listed: { attacker: { defender: multiplier } }
-const GEN6 = {
+const MATCHUPS = {
   Normal: { Rock: 0.5, Ghost: 0, Steel: 0.5 },
   Fire: { Fire: 0.5, Water: 0.5, Grass: 2, Ice: 2, Bug: 2, Rock: 0.5, Dragon: 0.5, Steel: 2 },
   Water: { Fire: 2, Water: 0.5, Grass: 0.5, Ground: 2, Rock: 2, Dragon: 0.5 },
@@ -32,6 +26,33 @@ const GEN6 = {
   Fairy: { Fire: 0.5, Fighting: 2, Poison: 0.5, Dragon: 2, Dark: 2, Steel: 0.5 },
 };
 
-window.TYPE_CHART = { types: window.TYPES, data: GEN6 };
+/** Damage multiplier of one attacking type against one defending type. */
+export const effectiveness = (attacker, defender) => MATCHUPS[attacker]?.[defender] ?? 1;
 
-window.effectiveness = (chart, atk, def) => chart.data[atk]?.[def] ?? 1;
+/** Combined multiplier of an attacking type against a (mono or dual) typing. */
+export const effectivenessAgainst = (attacker, defenders) =>
+  defenders.reduce((total, d) => total * effectiveness(attacker, d), 1);
+
+/**
+ * Defensive profile of a typing, grouped by multiplier:
+ *   { 4: [...], 2: [...], 0.5: [...], 0.25: [...], 0: [...] }
+ */
+export function defensiveMatchups(defenders) {
+  const groups = { 4: [], 2: [], 0.5: [], 0.25: [], 0: [] };
+  for (const attacker of TYPES) {
+    const m = effectivenessAgainst(attacker, defenders);
+    groups[m]?.push(attacker);
+  }
+  return groups;
+}
+
+/**
+ * Offensive coverage of a set of attacking types, using the best multiplier any of them gets:
+ *   { 2: [...super effective], 0.5: [...resisted by all], 0: [...immune to all] }
+ */
+export function offensiveCoverage(attackers) {
+  const best = (defender) => Math.max(...attackers.map((a) => effectiveness(a, defender)));
+  const groups = { 2: [], 0.5: [], 0: [] };
+  for (const defender of TYPES) groups[best(defender)]?.push(defender);
+  return groups;
+}

@@ -1,0 +1,30 @@
+<!-- Add / edit one player's encounter on a route (controllers/encounterDialog.js) -->
+<dialog id="enc-dialog" class="group">
+  <form method="dialog" id="enc-form" class="flex flex-col gap-3">
+    <h2 id="enc-title" class="m-0 text-lg font-semibold flex justify-between items-baseline">
+      <span data-slot="route"></span><small class="text-[13px] font-semibold" data-slot="player"></small>
+    </h2>
+    <div class="h-24 flex justify-center items-center bg-bg rounded-[10px]">
+      <img id="enc-sprite" class="w-24 h-24 pixel invisible group-data-[preview]:visible" alt="" />
+    </div>
+    <label class="field">Species
+      <div class="relative">
+        <input id="enc-species" class="input" autocomplete="off" placeholder="Start typing…" maxlength="40" />
+        <ul id="enc-suggest" class="suggest" hidden></ul>
+      </div>
+    </label>
+    <label class="field">Nickname <input id="enc-nick" class="input" maxlength="24" /></label>
+    <fieldset class="flex flex-wrap gap-2.5 border border-border rounded-lg px-2.5 py-2">
+      <legend class="text-muted text-[13px] px-1">Status</legend>
+      <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="status" value="alive" class="accent-accent" /> <span class="pill pill-alive">Alive</span></label>
+      <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="status" value="dead" class="accent-accent" /> <span class="pill pill-dead">Dead</span></label>
+      <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="status" value="missed" class="accent-accent" /> <span class="pill pill-missed">Missed</span></label>
+    </fieldset>
+    <div class="flex items-center gap-2 mt-1">
+      <button type="button" id="enc-clear" class="btn btn-danger">Clear</button>
+      <span class="flex-1"></span>
+      <button type="button" id="enc-cancel" class="btn">Cancel</button>
+      <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+  </form>
+</dialog>

@@ -6,7 +6,7 @@ services:
     name: nuzlocke-tracker
     runtime: node
     plan: free
-    buildCommand: npm ci
+    buildCommand: npm ci --include=dev && npm run build
     startCommand: npm start
     healthCheckPath: /healthz
     envVars:

@@ -1,0 +1,44 @@
+<!-- Encounter grid (controllers/grid.js). The table is static; grid.js clones one <tr> per route. -->
+<div id="grid-wrap" class="card overflow-auto">
+  <table class="grid-table">
+    <thead>
+      <tr>
+        <th class="w-1/5">Location</th>
+        <th data-pid><span class="swatch"></span><span data-slot="name"></span></th>
+        <th data-pid><span class="swatch"></span><span data-slot="name"></span></th>
+        <th data-pid><span class="swatch"></span><span data-slot="name"></span></th>
+        <th data-pid><span class="swatch"></span><span data-slot="name"></span></th>
+      </tr>
+    </thead>
+    <tbody id="grid-rows"></tbody>
+  </table>
+  <p id="grid-empty" class="p-6 text-center text-muted" hidden>No routes yet – add one above.</p>
+</div>
+
+<!--
+  Row state is expressed as data attributes and styled in app.css / Tailwind variants:
+    tr[data-wiped]            everyone's Pokémon from this route died (tinted with --wipe-c)
+    tr[data-drag=source|before|after]   drag-and-drop feedback
+    td[data-kind=empty|missed|pokemon]  which cell content is shown
+    td[data-status=alive|dead]          colour of the left border
+    td[data-locked]           belongs to another player
+-->
+<template id="tpl-grid-row">
+  <tr>
+    <th class="route-th" draggable="true">
+      <span class="drag-handle text-border text-[11px] tracking-[-3px] mr-2 select-none" aria-hidden="true">⋮⋮</span>
+      <span data-slot="name"></span>
+      <span class="route-tools">
+        <button class="btn btn-danger px-1.5 py-0 text-xs leading-5" data-action="remove-route" title="Remove route">×</button>
+        <label class="flex items-center gap-1.5 cursor-pointer text-muted text-[11px]" data-slot="wipe-label">
+          <input type="checkbox" class="w-[15px] h-[15px] m-0 cursor-pointer accent-(--wipe-c)" data-action="wipe" />
+          <span class="max-w-[70px] overflow-hidden text-ellipsis whitespace-nowrap text-(--wipe-c)" data-slot="wipe-by"></span>
+        </label>
+      </span>
+    </th>
+    <!-- @include grid/cell.html -->
+    <!-- @include grid/cell.html -->
+    <!-- @include grid/cell.html -->
+    <!-- @include grid/cell.html -->
+  </tr>
+</template>

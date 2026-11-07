@@ -1,0 +1,42 @@
+<!-- Runs tab (controllers/attempts.js): archived attempts + the Reset run dialog -->
+<div id="runs" class="flex flex-col gap-3.5"></div>
+<p id="runs-empty" class="text-muted" hidden>No lost runs yet. Attempt <span data-slot="attempt"></span> is in progress.</p>
+
+<template id="tpl-attempt-card">
+  <article class="group card px-3.5 py-3">
+    <header class="flex flex-wrap items-baseline justify-between gap-3 mb-2.5">
+      <h3 class="m-0 text-base font-semibold">Attempt <span data-slot="number"></span></h3>
+      <span class="text-muted text-[13px]">
+        <span data-slot="summary"></span> · reset by
+        <span class="swatch" data-slot="resetter-swatch"></span><strong data-slot="resetter"></strong>
+      </span>
+      <button class="btn btn-danger btn-sm ml-auto" data-action="delete-attempt" title="Delete this archived attempt">Delete</button>
+    </header>
+    <p class="-mt-1 mb-2.5 italic text-muted text-sm hidden group-data-[reason]:block">“<span data-slot="reason"></span>”</p>
+    <div class="grid grid-cols-4 gap-3 max-[1000px]:grid-cols-2">
+      <!-- @include attempts/player.html -->
+      <!-- @include attempts/player.html -->
+      <!-- @include attempts/player.html -->
+      <!-- @include attempts/player.html -->
+    </div>
+  </article>
+</template>
+
+<template id="tpl-attempt-sprite">
+  <img class="w-8 h-8 pixel data-[dead]:grayscale data-[dead]:brightness-[.6]" alt="" />
+</template>
+
+<dialog id="reset-dialog">
+  <form method="dialog" id="reset-form" class="flex flex-col gap-3">
+    <h2 class="m-0 text-lg font-semibold flex justify-between items-baseline">Reset run <small id="reset-attempt" class="text-[13px] font-semibold"></small></h2>
+    <p class="m-0 text-sm text-muted">This attempt will be archived in the Runs tab and every player's encounters will be cleared.</p>
+    <label class="field">Why did the run end?
+      <textarea id="reset-reason" class="input resize-y" rows="3" maxlength="500" placeholder="e.g. Whole team wiped to Norman's Slaking"></textarea>
+    </label>
+    <div class="flex items-center gap-2 mt-1">
+      <span class="flex-1"></span>
+      <button type="button" id="reset-cancel" class="btn">Cancel</button>
+      <button type="submit" class="btn btn-danger-solid">Reset run</button>
+    </div>
+  </form>
+</dialog>

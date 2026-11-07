@@ -1,0 +1,28 @@
+<!-- Matchup card (controllers/lookup.js), shared by both lookups. Visible unless the parent is data-state="empty". -->
+<div class="hidden group-data-[state=loading]:flex group-data-[state=error]:flex group-data-[state=ready]:flex items-center gap-3.5 mb-3.5">
+  <img class="w-28 h-28 pixel bg-bg rounded-xl" alt="" data-slot="sprite" />
+  <div>
+    <h3 class="m-0 mb-2 text-2xl font-bold"><span data-slot="title"></span> <small class="text-muted text-sm font-medium" data-slot="subtitle"></small></h3>
+    <div class="flex flex-wrap gap-1.5" data-slot="types"></div>
+    <p class="hint hidden group-data-[state=loading]:block">Loading types…</p>
+    <p class="hint text-dead hidden group-data-[state=error]:block">Couldn't load type data (offline?).</p>
+  </div>
+</div>
+
+<div class="hidden group-data-[state=ready]:grid grid-cols-2 gap-[18px]">
+  <div>
+    <h5 class="m-0 mb-2.5 eyebrow font-semibold">Defending</h5>
+    <div class="mu mu-w4" data-group="defense" data-multiplier="4"><h4 class="mu-title"><b>4×</b>Weak</h4><div class="flex flex-wrap gap-1.5" data-slot="types"></div></div>
+    <div class="mu mu-w2" data-group="defense" data-multiplier="2"><h4 class="mu-title"><b>2×</b>Weak</h4><div class="flex flex-wrap gap-1.5" data-slot="types"></div></div>
+    <div class="mu mu-r2" data-group="defense" data-multiplier="0.5"><h4 class="mu-title"><b>½×</b>Resists</h4><div class="flex flex-wrap gap-1.5" data-slot="types"></div></div>
+    <div class="mu mu-r4" data-group="defense" data-multiplier="0.25"><h4 class="mu-title"><b>¼×</b>Resists</h4><div class="flex flex-wrap gap-1.5" data-slot="types"></div></div>
+    <div class="mu mu-im" data-group="defense" data-multiplier="0"><h4 class="mu-title"><b>0×</b>Immune</h4><div class="flex flex-wrap gap-1.5" data-slot="types"></div></div>
+  </div>
+  <div>
+    <h5 class="m-0 mb-2.5 eyebrow font-semibold" data-slot="offense-title">Attacking</h5>
+    <div class="mu mu-se" data-group="offense" data-multiplier="2"><h4 class="mu-title"><b>2×</b>Super effective against</h4><div class="flex flex-wrap gap-1.5" data-slot="types"></div></div>
+    <div class="mu mu-w2" data-group="offense" data-multiplier="0.5"><h4 class="mu-title"><b>½×</b>Not very effective against</h4><div class="flex flex-wrap gap-1.5" data-slot="types"></div></div>
+    <div class="mu mu-im" data-group="offense" data-multiplier="0"><h4 class="mu-title"><b>0×</b>No effect on</h4><div class="flex flex-wrap gap-1.5" data-slot="types"></div></div>
+    <p class="hint hidden group-data-[no-se]:block">No super-effective targets.</p>
+  </div>
+</div>

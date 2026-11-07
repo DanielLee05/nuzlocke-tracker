@@ -1,6 +1,6 @@
 // Pixel-art renditions of the eight Hoenn (Emerald) gym badges, 12×12 grids rendered as crisp SVG.
 // Each entry: name, palette (char -> colour), and 12 rows of 12 chars ('.' = transparent).
-window.BADGES = [
+export const BADGES = [
   {
     name: "Stone Badge",
     pal: { G: "#4b5563", L: "#9ca3af", W: "#e5e7eb", D: "#6b7280" },
@@ -147,14 +147,22 @@ window.BADGES = [
   },
 ];
 
-window.badgeSvg = function badgeSvg(i) {
-  const b = window.BADGES[i];
-  let rects = "";
-  b.px.forEach((row, y) => {
-    for (let x = 0; x < row.length; x++) {
-      const c = b.pal[row[x]];
-      if (c) rects += `<rect x="${x}" y="${y}" width="1" height="1" fill="${c}"/>`;
-    }
+const SVG_NS = "http://www.w3.org/2000/svg";
+
+/** An <svg> element drawing badge `index` (0–7), one 1×1 rect per coloured pixel. */
+export function badgeSvg(index) {
+  const { px, pal } = BADGES[index];
+  const svg = document.createElementNS(SVG_NS, "svg");
+  svg.setAttribute("viewBox", "0 0 12 12");
+  svg.setAttribute("shape-rendering", "crispEdges");
+  svg.setAttribute("aria-hidden", "true");
+  px.forEach((row, y) => {
+    [...row].forEach((ch, x) => {
+      if (!pal[ch]) return;
+      const rect = document.createElementNS(SVG_NS, "rect");
+      for (const [k, v] of Object.entries({ x, y, width: 1, height: 1, fill: pal[ch] })) rect.setAttribute(k, v);
+      svg.append(rect);
+    });
   });
-  return `<svg viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true">${rects}</svg>`;
-};
+  return svg;
+}

@@ -1,0 +1,40 @@
+<!-- Top bar (controllers/header.js): run name/game, attempt number, "You are" picker, presence dots, connection pill -->
+<header class="sticky top-0 z-[5] flex flex-wrap items-center justify-between gap-4 px-5 py-3 bg-panel border-b border-border">
+  <div class="flex items-center gap-3">
+    <a class="no-underline text-muted text-sm px-2 py-1.5 rounded-md hover:bg-panel-2 hover:text-text" href="/" title="Home">◀</a>
+    <div>
+      <h1 id="run-name" class="editable m-0 text-xl font-bold" contenteditable="true" spellcheck="false" title="Click to rename">Loading…</h1>
+      <div class="flex flex-wrap items-center gap-1.5 text-[13px] text-muted">
+        <span id="run-game" class="editable px-1 py-0 ml-0" contenteditable="true" spellcheck="false" title="Click to edit game"></span>
+        · code <code id="run-code"></code>
+        <button id="copy-link" class="btn-link" title="Copy invite link">copy link</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex items-baseline gap-2 text-[30px] font-extrabold text-accent whitespace-nowrap max-[900px]:order-3 max-[900px]:w-full max-[900px]:justify-center">
+    <span class="text-2xl uppercase tracking-wider text-text">Attempt</span><span id="attempt-number"></span>
+  </div>
+
+  <div class="flex items-center gap-3.5">
+    <label class="flex items-center gap-2 text-[13px] text-muted whitespace-nowrap">You are
+      <select id="actor-select" class="input w-auto px-2 py-[5px]">
+        <option value="">Spectator</option>
+        <option value="p1" data-pid="p1"></option>
+        <option value="p2" data-pid="p2"></option>
+        <option value="p3" data-pid="p3"></option>
+        <option value="p4" data-pid="p4"></option>
+      </select>
+    </label>
+
+    <!-- One dot per player; `data-online` lights it up -->
+    <div id="online" class="flex gap-1.5 p-1 rounded-full" title="Online now">
+      <span class="presence-dot" data-pid="p1"></span>
+      <span class="presence-dot" data-pid="p2"></span>
+      <span class="presence-dot" data-pid="p3"></span>
+      <span class="presence-dot" data-pid="p4"></span>
+    </div>
+
+    <span id="conn" class="text-xs text-muted px-2 py-[3px] rounded-full border border-border data-[status=ok]:text-alive data-[status=ok]:border-alive/40 data-[status=bad]:text-dead data-[status=bad]:border-dead/40">connecting…</span>
+  </div>
+</header>

@@ -1,0 +1,19 @@
+<!-- Encounters toolbar: add route, reset, gym badges (controllers/badges.js draws the pixel art into each button; the add-route form is handled by controllers/grid.js) -->
+<div class="flex flex-wrap items-center gap-3.5 mb-2.5">
+  <form id="add-route" class="flex gap-2">
+    <input name="name" class="input w-[260px] py-[5px]" placeholder="New route / location" maxlength="60" required />
+    <button type="submit" class="btn">Add route</button>
+  </form>
+  <button id="reset-run" class="btn btn-danger" title="Archive this attempt and start over">Reset run</button>
+
+  <div id="badge-row" class="flex items-center gap-1" title="Gym badges earned this attempt">
+    <button type="button" class="badge-btn" data-badge="1" title="Stone Badge"></button>
+    <button type="button" class="badge-btn" data-badge="2" title="Knuckle Badge"></button>
+    <button type="button" class="badge-btn" data-badge="3" title="Dynamo Badge"></button>
+    <button type="button" class="badge-btn" data-badge="4" title="Heat Badge"></button>
+    <button type="button" class="badge-btn" data-badge="5" title="Balance Badge"></button>
+    <button type="button" class="badge-btn" data-badge="6" title="Feather Badge"></button>
+    <button type="button" class="badge-btn" data-badge="7" title="Mind Badge"></button>
+    <button type="button" class="badge-btn" data-badge="8" title="Rain Badge"></button>
+  </div>
+</div>

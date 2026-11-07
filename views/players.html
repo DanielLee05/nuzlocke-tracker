@@ -1,0 +1,23 @@
+<!-- Player cards (controllers/players.js). One static card per player; state flags: data-me, data-locked, data-sprite. -->
+<section id="players" class="grid grid-cols-4 gap-3 mb-3 max-[1000px]:grid-cols-2 max-[560px]:grid-cols-1">
+  <!-- @include players/card.html -->
+  <!-- @include players/card.html -->
+  <!-- @include players/card.html -->
+  <!-- @include players/card.html -->
+</section>
+
+<!-- Trainer sprite picker -->
+<dialog id="sprite-dialog" class="w-[640px]">
+  <h2 class="m-0 mb-3 text-lg font-semibold flex justify-between items-baseline">Trainer sprite <small class="text-[13px] font-semibold" data-slot="player"></small></h2>
+  <div id="sprite-grid" class="flex flex-wrap gap-1.5 max-h-[60vh] overflow-auto pr-1"></div>
+  <div class="flex items-center gap-2 mt-3">
+    <span class="flex-1"></span>
+    <button type="button" id="sprite-cancel" class="btn">Cancel</button>
+  </div>
+</dialog>
+
+<template id="tpl-sprite-option">
+  <button type="button" class="flex flex-col items-center gap-0.5 w-[92px] px-1 py-1.5 text-[11px] text-muted bg-bg border border-border rounded-lg hover:border-accent hover:text-text aria-pressed:border-accent aria-pressed:text-text aria-pressed:shadow-[0_0_0_1px_var(--color-accent)]">
+    <img class="w-16 h-16 pixel object-contain" alt="" loading="lazy" data-slot="sprite" /><span data-slot="label"></span>
+  </button>
+</template>

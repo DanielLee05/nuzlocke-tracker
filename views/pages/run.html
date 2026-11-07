@@ -1,0 +1,52 @@
+<!doctype html>
+<!-- Source for public/run.html. Each include is the markup for the controller of the same name. -->
+<html lang="en">
+<head>
+  <!-- @include ../head.html -->
+</head>
+<body>
+  <!-- @include ../header.html -->
+
+  <main id="app" class="px-5 pt-3 pb-4 max-w-[1600px] mx-auto" hidden>
+    <!-- @include ../players.html -->
+    <!-- @include ../tabs.html -->
+
+    <section id="tab-encounters" role="tabpanel">
+      <!-- @include ../badges.html -->
+      <!-- @include ../grid.html -->
+    </section>
+
+    <section id="tab-graveyard" role="tabpanel" hidden>
+      <!-- @include ../graveyard.html -->
+    </section>
+
+    <section id="tab-runs" role="tabpanel" hidden>
+      <!-- @include ../attempts.html -->
+    </section>
+
+    <section id="tab-stats" role="tabpanel" hidden>
+      <!-- @include ../stats.html -->
+    </section>
+
+    <section id="tab-types" role="tabpanel" hidden>
+      <!-- @include ../typeLookup.html -->
+    </section>
+
+    <section id="tab-lookup" role="tabpanel" hidden>
+      <!-- @include ../pokemonLookup.html -->
+    </section>
+  </main>
+
+  <div id="notfound" class="max-w-[900px] mx-auto px-5 py-12" hidden>
+    <h1 class="text-4xl font-bold m-0 mb-1.5">Run not found</h1>
+    <p class="text-muted text-[17px]">Check the code, or <a href="/">create a new run</a>.</p>
+  </div>
+
+  <!-- @include ../encounterDialog.html -->
+  <!-- @include ../suggestions.html -->
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script type="module" src="/js/controllers/app.js"></script>
+</body>
+</html>

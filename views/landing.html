@@ -1,0 +1,42 @@
+<!-- Landing page (controllers/landing.js): create a run, join by code, recent runs -->
+<main class="w-full max-w-[860px] mx-auto px-5 py-12">
+  <h1 class="text-[40px] font-extrabold m-0 mb-8 text-center">Nuzlocke <span class="text-accent">Tracker</span></h1>
+
+  <div class="grid grid-cols-2 gap-5 max-[720px]:grid-cols-1">
+    <section class="card p-5">
+      <h2 class="m-0 mb-4 text-lg font-semibold">Start a new run</h2>
+      <form id="create-form" class="flex flex-col gap-3">
+        <label class="field">Run name <input class="input" name="name" placeholder="Summer Randomizer" maxlength="80" /></label>
+        <div class="grid grid-cols-2 gap-3">
+          <label class="field">Player 1 <input class="input" name="p1" placeholder="Ash" maxlength="24" /></label>
+          <label class="field">Player 2 <input class="input" name="p2" placeholder="Misty" maxlength="24" /></label>
+          <label class="field">Player 3 <input class="input" name="p3" placeholder="Brock" maxlength="24" /></label>
+          <label class="field">Player 4 <input class="input" name="p4" placeholder="Gary" maxlength="24" /></label>
+        </div>
+        <button type="submit" class="btn btn-primary mt-1">Create run</button>
+      </form>
+    </section>
+
+    <section class="card p-5">
+      <h2 class="m-0 mb-4 text-lg font-semibold">Join a run</h2>
+      <form id="join-form" class="flex flex-col gap-3">
+        <label class="field">Run code <input class="input uppercase" name="code" placeholder="e.g. AB12CD" maxlength="8" required /></label>
+        <button type="submit" class="btn">Join</button>
+      </form>
+
+      <div id="recent" class="mt-5" hidden>
+        <h3 class="eyebrow m-0 mb-2">Recent runs</h3>
+        <ul id="recent-list" class="list-none m-0 p-0 flex flex-col gap-1.5"></ul>
+      </div>
+    </section>
+  </div>
+</main>
+
+<template id="tpl-recent-run">
+  <li class="flex items-center gap-2">
+    <a class="flex-1 flex items-center justify-between gap-2 no-underline text-text bg-panel-2 border border-border rounded-lg px-3 py-2 hover:border-accent/60" data-slot="link">
+      <strong data-slot="name"></strong> <code data-slot="code"></code>
+    </a>
+    <button type="button" class="btn btn-sm btn-danger px-2 py-1.5 text-sm leading-none" data-action="remove" title="Remove from recent runs">×</button>
+  </li>
+</template>

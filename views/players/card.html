@@ -1,0 +1,14 @@
+<article class="group card flex items-center gap-2.5 px-3 py-2 border-t-[3px] border-t-(--c) data-[me]:shadow-[0_0_0_1px_var(--c),0_0_18px_color-mix(in_srgb,var(--c)_25%,transparent)]" data-pid>
+  <button class="w-32 h-32 -my-2.5 -ml-2 p-0 flex items-center justify-center rounded-[10px] bg-transparent border-0 cursor-pointer hover:bg-(--c)/12 text-border text-4xl font-bold group-data-[locked]:cursor-default group-data-[locked]:hover:bg-transparent" data-action="pick-sprite">
+    <img class="w-32 h-32 pixel object-contain hidden group-data-[sprite]:block" alt="" data-slot="sprite" />
+    <span class="group-data-[sprite]:hidden">?</span>
+  </button>
+  <div class="flex-1 min-w-0 flex flex-col gap-1.5">
+    <header class="pl-1.5"><span class="editable font-bold text-base" spellcheck="false" data-slot="name"></span></header>
+    <footer class="flex flex-wrap gap-1.5">
+      <span class="pill pill-alive" data-slot="alive"></span>
+      <span class="pill pill-dead" data-slot="dead"></span>
+      <span class="pill pill-reset" data-slot="resets" title="Runs this player reset"></span>
+    </footer>
+  </div>
+</article>

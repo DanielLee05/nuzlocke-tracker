@@ -1,0 +1,45 @@
+<!-- Stats tab (controllers/stats.js). Everything is static; JS fills numbers and toggles data-* flags. -->
+<div id="stat-cards" class="grid grid-cols-3 gap-3 mb-4 max-[800px]:grid-cols-1">
+  <article class="group card px-4 py-3.5" id="stat-wipers">
+    <h4 class="m-0 mb-1.5 eyebrow font-semibold">Most likely to wipe</h4>
+    <div class="flex flex-wrap items-center gap-1.5 text-[22px] font-bold">
+      <span class="text-muted hidden group-data-[empty]:inline">No resets yet</span>
+      <!-- One chip per player; `data-on` shows it -->
+      <span class="hidden data-[on]:inline" data-pid><span class="swatch"></span><span data-slot="name"></span></span>
+      <span class="hidden data-[on]:inline" data-pid><span class="swatch"></span><span data-slot="name"></span></span>
+      <span class="hidden data-[on]:inline" data-pid><span class="swatch"></span><span data-slot="name"></span></span>
+      <span class="hidden data-[on]:inline" data-pid><span class="swatch"></span><span data-slot="name"></span></span>
+    </div>
+    <div class="text-muted" data-slot="detail"></div>
+  </article>
+
+  <article class="card px-4 py-3.5" id="stat-furthest">
+    <h4 class="m-0 mb-1.5 eyebrow font-semibold">Furthest run</h4>
+    <div class="text-[22px] font-bold" data-slot="value"></div>
+    <div class="text-muted" data-slot="detail"></div>
+  </article>
+
+  <article class="card px-4 py-3.5" id="stat-attempts">
+    <h4 class="m-0 mb-1.5 eyebrow font-semibold">Attempts</h4>
+    <div class="text-[22px] font-bold" data-slot="value"></div>
+    <div class="text-muted"><span data-slot="lost"></span> lost · 1 in progress</div>
+  </article>
+</div>
+
+<table class="card w-full border-collapse overflow-hidden">
+  <thead>
+    <tr class="bg-panel-2 eyebrow">
+      <th class="px-3.5 py-2.5 text-left font-semibold">Player</th>
+      <th class="px-3.5 py-2.5 text-right font-semibold">All-time deaths caused</th>
+      <th class="px-3.5 py-2.5 text-right font-semibold">Avg deaths caused / run</th>
+      <th class="px-3.5 py-2.5 text-right font-semibold">Resets</th>
+    </tr>
+  </thead>
+  <tbody id="stat-rows">
+    <!-- @include stats/row.html -->
+    <!-- @include stats/row.html -->
+    <!-- @include stats/row.html -->
+    <!-- @include stats/row.html -->
+  </tbody>
+</table>
+<p class="hint mt-2.5">"Deaths caused" counts every Pokémon that died in a route row the player marked as wiped (the checkbox next to a route).</p>
