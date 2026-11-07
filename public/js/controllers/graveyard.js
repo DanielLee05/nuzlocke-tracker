@@ -11,7 +11,7 @@ export function updateGraveyard() {
     const fallen = encountersOf(p.id).filter(isDead);
     column.style.setProperty("--c", p.color);
     column.toggleAttribute("data-empty", fallen.length === 0);
-    fill(column, { name: p.name, count: `${fallen.length} fallen` });
+    fill(column, { name: p.name, count: `${fallen.length} dead` });
     mount(slot(column, "list"), fallen.map(tombstone));
   });
 }
