@@ -23,7 +23,7 @@ export function updateStats() {
   const furthest = attempts.reduce((best, a) => (a.badges > (best?.badges ?? -1) ? a : best), null);
 
   const maxResets = showTiedLeaders($("#stat-wipers"), players, rows.map((r) => r.resets));
-  fill($("#stat-wipers"), { detail: maxResets ? plural(maxResets, "reset") : "" });
+  fill($("#stat-wipers"), { detail: maxResets ? plural(maxResets, "wipes") : "" });
 
   const maxLost = showTiedLeaders($("#stat-deaths"), players, rows.map((r) => r.lost));
   fill($("#stat-deaths"), { detail: maxLost ? `${maxLost} fellas dead` : "" });
