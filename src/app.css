@@ -138,16 +138,18 @@
   tr[data-wiped] .cell[data-status="dead"] { border-left-color: var(--wipe-c); background: color-mix(in srgb, var(--wipe-c) 8%, transparent); }
 
   /* Cells: data-kind picks the content, data-status the colour, data-locked disables hover. */
-  .cell { @apply cursor-pointer h-10 px-2 align-middle border-b border-border border-l-[3px] border-l-transparent transition-colors whitespace-nowrap overflow-hidden text-ellipsis hover:bg-panel-2; }
+  .cell { @apply relative cursor-pointer h-10 px-2 align-middle border-b border-border border-l-[3px] border-l-transparent transition-colors whitespace-nowrap overflow-hidden text-ellipsis hover:bg-panel-2; }
   .cell[data-kind="empty"] { @apply text-center text-border text-lg hover:text-muted; }
   .cell[data-kind="missed"] { @apply border-l-missed text-muted; }
   .cell[data-status="alive"] { @apply border-l-alive; }
   .cell[data-status="dead"] { @apply border-l-dead bg-dead/8; }
   .cell[data-status="dead"] .sprite { @apply grayscale brightness-75; }
   .cell[data-status="dead"] .species { @apply line-through text-muted; }
+  .cell[data-favorite] .species { @apply text-alive; }
   .cell[data-locked] { @apply cursor-default hover:bg-transparent; }
   .cell[data-locked][data-kind="empty"] { @apply text-transparent hover:text-transparent; }
 
+  .cell[data-kind="pokemon"] { @apply pr-7; }
   .sprite { @apply inline-block w-9 h-9 align-middle [image-rendering:pixelated] -my-1.5 -ml-1 mr-0.5; }
 }
 
@@ -156,6 +158,10 @@
 .badge-btn { @apply w-[30px] h-[30px] p-0.5 bg-transparent border-0 rounded-md cursor-pointer grayscale brightness-50 opacity-50 transition hover:opacity-85 hover:bg-panel-2; }
 .badge-btn[aria-pressed="true"] { @apply grayscale-0 brightness-100 opacity-100 hover:scale-110; }
 .badge-btn img { @apply w-full h-full object-contain block [image-rendering:pixelated]; }
+
+.favorite-button { @apply absolute right-1 top-1/2 -translate-y-1/2 w-4 h-4 p-0 items-center justify-center bg-transparent border-0 rounded-sm cursor-pointer grayscale brightness-50 opacity-40 transition hover:opacity-90 hover:bg-panel-3; }
+.favorite-button[aria-pressed="true"] { @apply grayscale-0 brightness-100 opacity-100; }
+.favorite-button img { @apply w-full h-full object-contain block; }
 
 .online-flash { animation: online-flash .6s ease; }
 @keyframes online-flash {

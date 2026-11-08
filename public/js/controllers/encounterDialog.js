@@ -63,7 +63,9 @@ function showPreview(dexId) {
 }
 
 function save(encounter) {
-  if (editing) send({ type: "setEncounter", ...editing, encounter });
+  if (!editing) return close();
+  const existing = state.run.encounters[editing.routeId]?.[editing.playerId] ?? {};
+  send({ type: "setEncounter", ...editing, encounter: { ...existing, ...encounter } });
   close();
 }
 

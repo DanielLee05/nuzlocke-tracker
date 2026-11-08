@@ -5,7 +5,7 @@
 //     id, name, game, createdAt, updatedAt,
 //     players:    [{ id: "p1".."p4", name, color, sprite }],
 //     routes:     [{ id, name, wipe?: { by, byName, at, prev } }],
-//     encounters: { [routeId]: { [playerId]: { species, dexId, nickname, status, updatedAt } } },
+//     encounters: { [routeId]: { [playerId]: { species, dexId, nickname, status, favorite, updatedAt } } },
 //     badges:     0..8,                // gym badges in the current attempt
 //     history:    [archived attempts]  // see ops.js → resetRun
 //   }

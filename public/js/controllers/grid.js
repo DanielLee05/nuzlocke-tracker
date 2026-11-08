@@ -36,6 +36,16 @@ export function initGrid() {
     const cell = e.target.closest("td[data-pid]");
     if (!cell) return;
     if (!canEdit(cell.dataset.pid)) return explainLock(cell.dataset.pid);
+
+    const favorite = e.target.closest(".favorite-button");
+    if (favorite) {
+      const routeId = routeOf(cell).id;
+      const enc = state.run.encounters[routeId]?.[cell.dataset.pid];
+      if (!enc?.species) return;
+      send({ type: "setEncounter", routeId, playerId: cell.dataset.pid, encounter: { ...enc, favorite: !enc.favorite } });
+      return;
+    }
+
     openEncounter(routeOf(cell).id, cell.dataset.pid);
   });
 
@@ -112,12 +122,17 @@ function fillCell(td, enc, playerId) {
 
   if (!enc?.species) {
     td.dataset.kind = enc?.status === "missed" ? "missed" : "empty";
+    td.removeAttribute("data-favorite");
     return;
   }
   td.dataset.kind = "pokemon";
   td.dataset.status = enc.status;
+  td.toggleAttribute("data-favorite", Boolean(enc.favorite));
   td.title = (enc.nickname ? `${enc.nickname} (${enc.species})` : enc.species) + (enc.status === "dead" ? " – dead" : "");
   fill(td, { name: enc.nickname || enc.species });
+  const star = $(".favorite-button", td);
+  star.ariaPressed = String(Boolean(enc.favorite));
+  star.title = enc.favorite ? "Unfavorite" : "Favorite";
 
   const dexId = enc.dexId || dexByLabel(enc.species)?.id;
   const img = slot(td, "sprite");

@@ -178,6 +178,7 @@ function sanitizeEncounter(e = {}) {
     dexId: int(e.dexId, 0, 100000) || null,
     nickname: str(e.nickname, 24),
     status: STATUSES.has(e.status) ? e.status : "none",
+    favorite: Boolean(e.favorite),
     updatedAt: Date.now(),
   };
 }
