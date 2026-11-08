@@ -100,7 +100,7 @@ function routeRow(route, index, rowEncounters, players) {
   slot(tr, "wipe-label").title = wipe
     ? `Marked dead by ${wipe.byName} · ${new Date(wipe.at).toLocaleString()}`
     : "Check if everyone's Pokémon from this route died";
-  fill(tr, { name: route.name, "wipe-by": wipe?.byName ?? "" });
+  fill(tr, { name: route.name});
 
   playerSlots(tr, players).forEach((td, i) => fillCell(td, rowEncounters[players[i].id], players[i].id));
   return tr;
