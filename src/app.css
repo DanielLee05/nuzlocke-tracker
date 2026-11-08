@@ -155,7 +155,7 @@
 .pixel { image-rendering: pixelated; }
 .badge-btn { @apply w-[30px] h-[30px] p-0.5 bg-transparent border-0 rounded-md cursor-pointer grayscale brightness-50 opacity-50 transition hover:opacity-85 hover:bg-panel-2; }
 .badge-btn[aria-pressed="true"] { @apply grayscale-0 brightness-100 opacity-100 hover:scale-110; }
-.badge-btn svg { @apply w-full h-full block; }
+.badge-btn img { @apply w-full h-full object-contain block [image-rendering:pixelated]; }
 
 .online-flash { animation: online-flash .6s ease; }
 @keyframes online-flash {
