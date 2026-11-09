@@ -1,0 +1,15 @@
+<!-- Matchup card (controllers/lookup.js), shared by both lookups. Visible unless the parent is data-state="empty". -->
+<div class="hidden group-data-[state=loading]:flex group-data-[state=error]:flex group-data-[state=ready]:flex items-center gap-3.5 mb-3.5">
+  <div>
+    <h3 class="m-0 mb-2 text-2xl font-bold"><span data-slot="title"></span></h3>
+    <p class="hint hidden group-data-[state=loading]:block">Loading Abilities</p>
+    <p class="hint text-dead hidden group-data-[state=error]:block">Couldn't load ability data (offline?).</p>
+  </div>
+</div>
+
+<div class="hidden group-data-[state=ready]:grid grid-cols-2 gap-[18px]">
+  <div>
+    <h5 class="m-0 mb-2.5 eyebrow font-semibold"><span data-slot="effect"></span></h5>
+  </div>
+
+</div>
