@@ -2,10 +2,10 @@
 // Both fill the shared matchup card in views/lookup/matchup.html.
 
 import { $, $$, clone, fill, mount, slot } from "../lib/dom.js";
-import { fetchPokemon } from "../models/dex.js";
+import { fetchAbility, fetchPokemon } from "../models/dex.js";
 import { pokemonSprite } from "../models/sprites.js";
 import { defensiveMatchups, offensiveCoverage } from "../models/typechart.js";
-import { attachSpeciesAutocomplete } from "./autocomplete.js";
+import { attachSpeciesAutocomplete, attachAbilityAutocomplete } from "./autocomplete.js";
 
 const MAX_PICKED_TYPES = 2;
 let pickedTypes = [];
@@ -24,6 +24,7 @@ export function initLookups() {
   updateTypeLookup();
 
   attachSpeciesAutocomplete($("#lk-species"), $("#lk-suggest"), { onPick: showPokemon, pickExactOnEnter: true });
+  attachAbilityAutocomplete($("#lk-ability-search"), $("#lk-ability-suggest"), { onPick: showAbility, pickExactOnEnter: true });
 }
 
 export const focusPokemonSearch = () => $("#lk-species").focus();
@@ -68,6 +69,28 @@ async function showPokemon(entry) {
     dexId: entry.id,
     offenseTitle: "Attacking (STAB)",
     showResisted: false,
+  });
+}
+
+// ---------- Ability lookup ----------
+
+async function showAbility(entry) {
+  const version = ++lookupVersion;
+  const card = $("#lk-ability");
+  card.dataset.state = "loading";
+
+  let ability;
+  try {
+    ability = await fetchAbility(entry.id);
+  } catch {
+    if (version === lookupVersion) card.dataset.state = "error";
+    return;
+  }
+  if (version !== lookupVersion) return;
+  card.dataset.state = "ready";
+  fill(card, {
+    title: entry.label,
+    effect: ability.shortEffect ?? "No Description"
   });
 }
 

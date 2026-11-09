@@ -3,7 +3,7 @@
 
 import { $, toast } from "../lib/dom.js";
 import { readJson, writeJson } from "../lib/storage.js";
-import { loadDex } from "../models/dex.js";
+import { loadAbilities, loadDex } from "../models/dex.js";
 import { runId, state } from "../models/state.js";
 import { connect } from "../services/socket.js";
 import { initAttempts, updateAttempts } from "./attempts.js";
@@ -54,6 +54,7 @@ async function boot() {
   initTips();
 
   await loadDex(); // species names must be ready before the grid renders sprites
+  await loadAbilities();
 
   connect({
     onState(run, from) {

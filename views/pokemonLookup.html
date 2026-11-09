@@ -1,13 +1,29 @@
 <!-- Pokémon lookup (controllers/lookup.js): search a species, see its matchups. -->
-<div class="max-w-[760px] flex flex-col gap-4">
-  <div class="relative">
-    <input id="lk-species" class="input text-base px-3.5 py-2.5" placeholder="Search a Pokémon…" autocomplete="off" />
-    <ul id="lk-suggest" class="suggest" hidden></ul>
-  </div>
+<div class="grid grid-cols-2 justify-items-center w-full gap-4">
+  <div class="flex flex-col gap-4 w-full">
+    <div class="relative">
+      <input id="lk-species" class="input text-base px-3.5 py-2.5" placeholder="Search a Pokémon…" autocomplete="off" />
+      <ul id="lk-suggest" class="suggest" hidden></ul>
+    </div>
 
-  <!-- data-state: empty | loading | error | ready -->
-  <div id="lk-result" class="group card p-[18px]" data-state="empty">
-    <p class="hint hidden group-data-[state=empty]:block">Pick a Pokémon to see its type matchups and base speed.</p>
-    <!-- @include lookup/matchup.html -->
+    <!-- data-state: empty | loading | error | ready -->
+    <div id="lk-result" class="group card p-[18px]" data-state="empty">
+      <p class="hint hidden group-data-[state=empty]:block">Pick a Pokémon to see its type matchups and base speed.</p>
+      <!-- @include lookup/matchup.html -->
+    </div>
+  </div>
+  
+    <div class="flex flex-col gap-4 w-full">
+    <div class="relative">
+      <input id="lk-ability-search" class="input text-base px-3.5 py-2.5" placeholder="Search an ability..." autocomplete="off" />
+      <ul id="lk-ability-suggest" class="suggest" hidden></ul>
+    </div>
+
+    <!-- data-state: empty | loading | error | ready -->
+    <div id="lk-ability" class="group card p-[18px]" data-state="empty">
+      <p class="hint hidden group-data-[state=empty]:block">Pick an ability to see what it does</p>
+      <!-- @include lookup/ability.html -->
+    </div>
   </div>
 </div>
+
